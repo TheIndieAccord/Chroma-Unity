@@ -76,9 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\plugins\ChromaSoHP\ChromaBasics.cs" />
-    <Compile Include="Assets\plugins\ChromaSoHP\ChromaControl.cs" />
-    <Compile Include="Assets\plugins\ChromaSoHP\ChromaKeyboard.cs" />
-    <Compile Include="Assets\plugins\ChromaSoHP\colorTest.cs" />
+    <Compile Include="Assets\plugins\ChromaSoHP\ChromaBasics2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\plugins\colore_5.0.0.97_anycpu\Corale.Colore.xml" />

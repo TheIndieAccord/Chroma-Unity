@@ -4,7 +4,12 @@ function Start () {
     //var ChromaKeyboard = new ChromaKeyboard();
     //ChromaKeyboard.SetKey("Z");
 
-    var chromaKeyboardBase = new ChromaKeyboard();
+    var Chroma = new ChromaBasics();
+    
+    //var Chroma2 = new ChromaBasics2();
+    //Chroma.AssignKey("O");
+    Chroma.Update();
+    //Chroma2.Update();
 }
 
 function Update () {

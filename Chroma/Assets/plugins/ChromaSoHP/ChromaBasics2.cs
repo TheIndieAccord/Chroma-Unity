@@ -6,7 +6,7 @@ using Corale.Colore.Razer.Keyboard;
 using KeyboardCustom = Corale.Colore.Razer.Keyboard.Effects.Custom;
 
 
-public class ChromaBasics : MonoBehaviour
+public class ChromaBasics2 : MonoBehaviour
 {
     private uint ambientColor = 0x1A0000;
 
@@ -19,28 +19,22 @@ public class ChromaBasics : MonoBehaviour
         Chroma.Instance.Uninitialize();
     }
 
-    public ChromaBasics()
+    public ChromaBasics2()
     {
         keyboardGridAmb.Set(ColoreColor.FromRgb(ambientColor));
         //keyboardGridAmb.Set(ColoreColor.FromRgb(ambientColor));
         //keyboardGridAct[Key.Q] = ColoreColor.Blue;
     }
 
-    public void AssignKey(int level = 0, string inputKey)
+    public void AssignKey(int level, string inputKey)
     {
         KeyboardCustom layer;
-        switch (level)
-        {
-            case 1:
-                layer = keyboardGridAct;
-                break;
-            case 2:
-                layer = keyboardGridDyn;
-                break;
-            default:
-                layer = keyboardGridAmb;
-                break;
-        }
+        if (level == 0)
+            layer = keyboardGridAmb;
+        else if (level == 1)
+            layer = keyboardGridAct;
+        else
+            layer = keyboardGridDyn;
 
         foreach (Key key in Enum.GetValues(typeof(Key)))
         {
@@ -53,8 +47,8 @@ public class ChromaBasics : MonoBehaviour
 
     public void Update()
     {
-            Chroma.Instance.Keyboard.SetCustom(keyboardGridAmb);
-            //Chroma.Instance.Keyboard.SetCustom(keyboardGridAct);
+            //Chroma.Instance.Keyboard.SetCustom(keyboardGridAmb);
+            Chroma.Instance.Keyboard.SetCustom(keyboardGridAct);
             //Chroma.Instance.Keyboard.SetCustom(keyboardGridDyn);
     }
 
