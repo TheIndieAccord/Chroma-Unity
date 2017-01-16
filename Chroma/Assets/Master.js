@@ -1,8 +1,8 @@
 ﻿#pragma strict
 
 function Start () {
-    var Chroma = new ChromaBasics();
-    Chroma.SetKey("Z");
+    var ChromaKeyboard = new ChromaKeyboard();
+    ChromaKeyboard.SetKey("Z");
 }
 
 function Update () {

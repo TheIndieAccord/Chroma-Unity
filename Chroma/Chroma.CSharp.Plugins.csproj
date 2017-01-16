@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="Assets\plugins\ChromaSoHP\ChromaBasics.cs" />
     <Compile Include="Assets\plugins\ChromaSoHP\ChromaControl.cs" />
+    <Compile Include="Assets\plugins\ChromaSoHP\ChromaKeyboard.cs" />
     <Compile Include="Assets\plugins\ChromaSoHP\colorTest.cs" />
   </ItemGroup>
   <ItemGroup>
