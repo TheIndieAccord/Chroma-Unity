@@ -25,6 +25,12 @@ public class ChromaBasics : MonoBehaviour
     {
         keyboardGridAmb.Set(ColoreColor.FromRgb(ambientColor));
         keyboardGridAct[Key.A] = ColoreColor.FromRgb(0x00000000);
+        //Chroma.Instance.Keyboard.SetBreathing(ColoreColor.Red, ColoreColor.White);
+        //Chroma.Instance.Keyboard.SetStatic(Corale.Colore.Razer.Effects.Static. (ColoreColor.Red));
+        Corale.Colore.Core.Keyboard.Instance.SetAll(ColoreColor.Red);
+        //Keyboard.Instance.SetBreathing(ColoreColor.White, ColoreColor.Blue);
+        Keyboard.Instance.SetKey(Key.A, ColoreColor.White);
+        //Chroma.Instance.Keyboard.SetKey(Key.A, ColoreColor.White, false);
         //keyboardGridAmb.Set(ColoreColor.FromRgb(ambientColor));
         //keyboardGridAct[Key.Q] = ColoreColor.Blue;
 
@@ -57,8 +63,6 @@ public class ChromaBasics : MonoBehaviour
 
     public static void Update()
     {
-        Chroma.Instance.Keyboard.SetBreathing(ColoreColor.Red, ColoreColor.White);
-        Chroma.Instance.Keyboard.SetKey(Key.A, ColoreColor.White, true);
         //Chroma.Instance.Keyboard.SetCustom(keyboardGridAmb);
         //Chroma.Instance.Keyboard.SetCustom(keyboardGridAct);
         //Chroma.Instance.Keyboard.SetCustom(keyboardGridDyn);

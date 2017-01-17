@@ -5,9 +5,9 @@ function Start () {
     //ChromaKeyboard.SetKey("Z");
     //Chroma.AssignKey("O");
 }
-
+ 
 function Update () {
-    ChromaBasics.Update();
+    //ChromaBasics.Update();
 }
 
 function OnApplicationQuit() {
