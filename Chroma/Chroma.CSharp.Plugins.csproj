@@ -71,15 +71,11 @@
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
     <Reference Include="Corale.Colore">
-      <HintPath>Assets\plugins\colore_5.0.0.97_anycpu\Corale.Colore.dll</HintPath>
+      <HintPath>Assets\plugins\Corale.Colore.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\plugins\ChromaSoHP\ChromaBasics.cs" />
-    <Compile Include="Assets\plugins\ChromaSoHP\ChromaBasics2.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\plugins\colore_5.0.0.97_anycpu\Corale.Colore.xml" />
+    <Compile Include="Assets\plugins\ChromaBasics.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
