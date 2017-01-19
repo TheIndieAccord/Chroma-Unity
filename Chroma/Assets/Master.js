@@ -1,15 +1,17 @@
 ﻿#pragma strict
-
+private var Chrom : ChromaBasics;
 function Start () {
-    var Chroma = new ChromaBasics();
-    //ChromaKeyboard.SetKey("Z");
-    //Chroma.AssignKey("O");
+    Chrom = new ChromaBasics();
 }
  
 function Update () {
-    //ChromaBasics.Update();
+    Chrom.AssignKey(255,50,50,2,1,1);
+    Chrom.AssignKey(0,250,0,1,1,1);
+    Chrom.AssignKey(250,0,0,2,1,2);
+    Chrom.AssignKey(0,0,0,1,1,2);
+    Chrom.Update();
 }
 
 function OnApplicationQuit() {
-    ChromaBasics.OnApplicationQuit();
+    Chrom.OnApplicationQuit();
 }

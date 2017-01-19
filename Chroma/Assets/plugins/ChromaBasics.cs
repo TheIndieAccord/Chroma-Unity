@@ -7,14 +7,11 @@ using Corale.Colore.Razer.Keyboard;
 using ColoreColor = Corale.Colore.Core.Color;
 using KeyboardCustom = Corale.Colore.Razer.Keyboard.Effects.Custom;
 
-
 public class ChromaBasics : MonoBehaviour
 {
     private uint ambientColor = 0xFFFF0000;
-
-    private KeyboardCustom keyboardGridAmb = KeyboardCustom.Create();
-    private KeyboardCustom keyboardGridAct = KeyboardCustom.Create();
-    private KeyboardCustom keyboardGridDyn = KeyboardCustom.Create();
+    private ColoreColor[,] layer1 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
+    private ColoreColor[,] layer2 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
 
     public static void OnApplicationQuit()
     {
@@ -23,61 +20,44 @@ public class ChromaBasics : MonoBehaviour
 
     public ChromaBasics()
     {
-        keyboardGridAmb.Set(ColoreColor.FromRgb(ambientColor));
-        keyboardGridAct[Key.A] = ColoreColor.FromRgb(0x00000000);
-        //Chroma.Instance.Keyboard.SetBreathing(ColoreColor.Red, ColoreColor.White);
-        //Chroma.Instance.Keyboard.SetStatic(Corale.Colore.Razer.Effects.Static. (ColoreColor.Red));
-        Corale.Colore.Core.Keyboard.Instance.SetAll(ColoreColor.Red);
-        //Keyboard.Instance.SetBreathing(ColoreColor.White, ColoreColor.Blue);
-        Keyboard.Instance.SetKey(Key.A, ColoreColor.White);
-        //Chroma.Instance.Keyboard.SetKey(Key.A, ColoreColor.White, false);
-        //keyboardGridAmb.Set(ColoreColor.FromRgb(ambientColor));
-        //keyboardGridAct[Key.Q] = ColoreColor.Blue;
 
     }
 
-    public void AssignKey(string inputKey, int level = 0)
+    public void AssignKey(int r, int g, int b, int layer, int x, int y)
     {
-        KeyboardCustom layer;
-        switch (level)
+        ColoreColor col = new ColoreColor(r, g, b);
+        // Chroma.Instance.Keyboard[x, y] =col;
+        layer1[x, y] = col;
+
+        switch (layer)
         {
             case 1:
-                layer = keyboardGridAct;
+                layer1[x, y] = col;
                 break;
             case 2:
-                layer = keyboardGridDyn;
+                layer2[x, y] = col;
                 break;
             default:
-                layer = keyboardGridAmb;
+                layer1[x, y] = col;
                 break;
         }
+    }
 
-        foreach (Key key in Enum.GetValues(typeof(Key)))
+    public void Update()
+    {
+        for (var r = 0; r < Constants.MaxRows; r++)
         {
-            if (key.ToString() == inputKey)
+            //Loop through all Columns
+            for (var c = 0; c < Constants.MaxColumns; c++)
             {
-                layer[key] = ColoreColor.FromRgb(0x000000);
+                // Set the current row and column to the random color
+                ColoreColor empty = new ColoreColor(0, 0, 0);
+                if (layer1[r, c] == empty)
+                    Chroma.Instance.Keyboard[r, c] = layer2[r, c];
+                else
+                    Chroma.Instance.Keyboard[r, c] = layer1[r, c];
             }
         }
     }
-
-    public static void Update()
-    {
-        //Chroma.Instance.Keyboard.SetCustom(keyboardGridAmb);
-        //Chroma.Instance.Keyboard.SetCustom(keyboardGridAct);
-        //Chroma.Instance.Keyboard.SetCustom(keyboardGridDyn);
-    }
-
-/*    public void SetKey(string inputKey)
-    {
-        foreach (Key key in Enum.GetValues(typeof(Key)))
-        {
-            if (key.ToString() == inputKey)
-            {
-                Chroma.Instance.Keyboard.SetKey(key, ColoreColor.FromRgb(0x001A00));
-            }
-        }
-    }
-    */
 
 }
