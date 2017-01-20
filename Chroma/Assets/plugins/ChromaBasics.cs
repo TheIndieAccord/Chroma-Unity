@@ -29,7 +29,7 @@ public class ChromaBasics : MonoBehaviour
 
     }
 
-    /* Assigns all of the keys to the supplied color.
+    /* Generates the Color
      * @param r     0-255 integer level of red.
      * @param g     0-255 integer level of green.
      * @param b     0-255 integer level of blue.
@@ -38,7 +38,25 @@ public class ChromaBasics : MonoBehaviour
     public void AssignAll(int r, int g, int b, int layer)
     {
         ColoreColor col = new ColoreColor(r, g, b);
-   
+        AssignLayerAll(col,layer);
+    }
+
+    /* Generates the Color
+     * @param hexcol Color coded in RGB hexadecimal format 0xRRGGBB.
+     * @param layer integer layer, where 1 is the highest layer, followed by 2.
+     */
+    public void AssignAll(uint hexcol, int layer)
+    {
+        ColoreColor col = new ColoreColor(ColoreColor.FromRgb(hexcol));
+        AssignLayerAll(col,layer);
+    }
+
+    /* Assigns all of the keys to the supplied color.
+     * @param col     Generated color
+     * @param layer integer layer, where 1 is the highest layer, followed by 2.
+     */
+    public void AssignLayerAll(ColoreColor col, int layer)
+    {
         //Supplies the given color combination to ALL of the keys on the required layer.
         switch (layer)
         {
@@ -89,21 +107,7 @@ public class ChromaBasics : MonoBehaviour
     public void AssignKey(int r, int g, int b, int layer, int x, int y)
     {
         ColoreColor col = new ColoreColor(r, g, b);
-        layer1[x, y] = col;
-
-        //Assigns the specified key in the required layer to the given color.
-        switch (layer)
-        {
-            case 1:
-                layer1[x, y] = col;
-                break;
-            case 2:
-                layer2[x, y] = col;
-                break;
-            default:
-                layer1[x, y] = col;
-                break;
-        }
+        AssignLayerKey(this.col, this.layer, this.x, this.y);
     }
 
     /* Assigns all of the keys to the supplied color.
@@ -115,8 +119,18 @@ public class ChromaBasics : MonoBehaviour
     public void AssignKey(uint hexcol, int layer, int x, int y)
     {
         ColoreColor col = new ColoreColor(ColoreColor.FromRgb(hexcol));
+        AssignLayerKey(this.col, this.layer, this.x, this.y);
+    }
+
+    /* Assigns all of the keys to the supplied color.
+     * @col      Color coded in RGB hexadecimal format of 0xRRGGBB.
+     * @param layer integer layer, where 1 is the highest layer, followed by 2.
+     * @param x     designated row on the keyboard.
+     * @param y     designated column on the keyboard. 
+     */
+    public void AssignLayerKey(ColoreColor col, int layer, int x, int y)
+    {
         layer1[x, y] = col;
-        
         //Assigns the specified key in the required layer to the given color.
         switch (layer)
         {
