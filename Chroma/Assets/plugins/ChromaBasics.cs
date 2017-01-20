@@ -16,6 +16,8 @@ public class ChromaBasics : MonoBehaviour
 {
     private ColoreColor[,] layer1 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
     private ColoreColor[,] layer2 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
+    private float fade = 0;
+    private bool isFade = false;
 
     //Uninitializes the Colore DLL on application quit. This MUST be called do to a current issue with DLL/Unity.
     public static void OnApplicationQuit()
@@ -49,6 +51,20 @@ public class ChromaBasics : MonoBehaviour
     {
         ColoreColor col = new ColoreColor(ColoreColor.FromRgb(hexcol));
         AssignLayerAll(col,layer);
+    }
+
+    /* Controls fading of a layer.
+     *
+     */
+    public void AllFade(int r, int g, int b, int layer, bool isFade)
+    {
+        isFade = this.isFade;
+        while (isFade)
+        {
+        ColoreColor col = new ColoreColor(r * fade, g * fade, b * fade);
+        AssignLayerAll(col,layer);
+        }
+        fade = 0;
     }
 
     /* Assigns all of the keys to the supplied color.
@@ -107,7 +123,7 @@ public class ChromaBasics : MonoBehaviour
     public void AssignKey(int r, int g, int b, int layer, int x, int y)
     {
         ColoreColor col = new ColoreColor(r, g, b);
-        AssignLayerKey(this.col, this.layer, this.x, this.y);
+        AssignLayerKey(col, this.layer, this.x, this.y);
     }
 
     /* Assigns all of the keys to the supplied color.
@@ -119,7 +135,7 @@ public class ChromaBasics : MonoBehaviour
     public void AssignKey(uint hexcol, int layer, int x, int y)
     {
         ColoreColor col = new ColoreColor(ColoreColor.FromRgb(hexcol));
-        AssignLayerKey(this.col, this.layer, this.x, this.y);
+        AssignLayerKey(col, this.layer, this.x, this.y);
     }
 
     /* Assigns all of the keys to the supplied color.
@@ -149,6 +165,11 @@ public class ChromaBasics : MonoBehaviour
     //Sends the created layers to the SDK for visualization.
     public void Update()
     {
+        fade += Time.deltatime;
+
+        if (fade >= 1)
+            fade = -1;
+  
         //Loop through all Rows
         for (var r = 0; r < Constants.MaxRows; r++)
         {
