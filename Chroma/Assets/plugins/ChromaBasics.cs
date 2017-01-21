@@ -1,10 +1,4 @@
-﻿/**
- * Name: CromaBasics.cs
- * Author: Hunter Dubel
- * Description: Basic functions for Chroma in Unity with layer functionality.
- * Updated: January 19, 2017 00:39
- **/
-
+﻿using System;
 using UnityEngine;
 
 using Corale.Colore.Core;
@@ -16,8 +10,8 @@ public class ChromaBasics : MonoBehaviour
 {
     private ColoreColor[,] layer1 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
     private ColoreColor[,] layer2 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
-    private float fade = 0;
-    private bool isFade = false;
+    private float fd = -1.0f;
+    private bool fading = false;
 
     //Uninitializes the Colore DLL on application quit. This MUST be called do to a current issue with DLL/Unity.
     public static void OnApplicationQuit()
@@ -28,7 +22,7 @@ public class ChromaBasics : MonoBehaviour
     //Class Constructor used by Javascript.
     public ChromaBasics()
     {
-
+        fd = -1.0f;
     }
 
     /* Generates the Color
@@ -40,7 +34,7 @@ public class ChromaBasics : MonoBehaviour
     public void AssignAll(int r, int g, int b, int layer)
     {
         ColoreColor col = new ColoreColor(r, g, b);
-        AssignLayerAll(col,layer);
+        AssignLayerAll(col, layer);
     }
 
     /* Generates the Color
@@ -50,21 +44,22 @@ public class ChromaBasics : MonoBehaviour
     public void AssignAll(uint hexcol, int layer)
     {
         ColoreColor col = new ColoreColor(ColoreColor.FromRgb(hexcol));
-        AssignLayerAll(col,layer);
+        AssignLayerAll(col, layer);
     }
 
     /* Controls fading of a layer.
      *
      */
-    public void AllFade(int r, int g, int b, int layer, bool isFade)
+    public void Allfd(int r, int g, int b, int layer, bool isfd)
     {
-        isFade = this.isFade;
-        while (isFade)
-        {
-        ColoreColor col = new ColoreColor(r * fade, g * fade, b * fade);
-        AssignLayerAll(col,layer);
-        }
-        fade = 0;
+        //fading = isfd;
+        //if (fading == true)
+        //{
+        Debug.Log((int)(r * Math.Abs(fd)));
+        //ColoreColor col = new ColoreColor();
+        ColoreColor col = new ColoreColor((int)(r * Math.Abs(fd)), 0 * Math.Abs(fd), 0 * Math.Abs(fd));
+        AssignLayerAll(col, layer);
+        //}
     }
 
     /* Assigns all of the keys to the supplied color.
@@ -123,7 +118,7 @@ public class ChromaBasics : MonoBehaviour
     public void AssignKey(int r, int g, int b, int layer, int x, int y)
     {
         ColoreColor col = new ColoreColor(r, g, b);
-        AssignLayerKey(col, this.layer, this.x, this.y);
+        AssignLayerKey(col, layer, x, y);
     }
 
     /* Assigns all of the keys to the supplied color.
@@ -135,7 +130,7 @@ public class ChromaBasics : MonoBehaviour
     public void AssignKey(uint hexcol, int layer, int x, int y)
     {
         ColoreColor col = new ColoreColor(ColoreColor.FromRgb(hexcol));
-        AssignLayerKey(col, this.layer, this.x, this.y);
+        AssignLayerKey(col, layer, x, y);
     }
 
     /* Assigns all of the keys to the supplied color.
@@ -165,11 +160,14 @@ public class ChromaBasics : MonoBehaviour
     //Sends the created layers to the SDK for visualization.
     public void Update()
     {
-        fade += Time.deltatime;
 
-        if (fade >= 1)
-            fade = -1;
-  
+        fd = fd + Time.deltaTime / 10;
+        if (Math.Abs(fd) < 0.01f)
+            fd = 0.01f;
+
+        if (fd >= 1.0)
+            fd = -1.0f;
+
         //Loop through all Rows
         for (var r = 0; r < Constants.MaxRows; r++)
         {
@@ -178,10 +176,10 @@ public class ChromaBasics : MonoBehaviour
             {
                 //Checks if the higher layer is blank. If so, display the underlying layer.
                 ColoreColor empty = new ColoreColor(0, 0, 0);
-                if (layer1[r, c] == empty)
-                    Chroma.Instance.Keyboard[r, c] = layer2[r, c];
-                else
-                    Chroma.Instance.Keyboard[r, c] = layer1[r, c];
+                //  if (layer1[r, c] == empty)
+                //    Chroma.Instance.Keyboard[r, c] = layer2[r, c];
+                //else
+                Chroma.Instance.Keyboard[r, c] = layer1[r, c];
             }
         }
     }
