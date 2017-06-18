@@ -1,18 +1,20 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
-
+using KeyboardCustom = Corale.Colore.Razer.Keyboard.Effects.Custom;
 using ColoreColor = Corale.Colore.Core.Color;
 
 public class ChromaBasics : MonoBehaviour
 {
     private ColoreColor[,] layer1 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
     private ColoreColor[,] layer2 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
+    private ColoreColor[,] layer3 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
     private float fd = -1.0f;
+    private int fdSpd = 10;
     private bool fading = false;
-
+    private KeyboardCustom keyboardGrid = KeyboardCustom.Create();
     //Uninitializes the Colore DLL on application quit. This MUST be called do to a current issue with DLL/Unity.
     public static void OnApplicationQuit()
     {
@@ -23,7 +25,10 @@ public class ChromaBasics : MonoBehaviour
     public ChromaBasics()
     {
         fd = -1.0f;
-    }
+        AssignAll(0,0,0,1);
+        AssignAll(0,0,0,2);
+        AssignAll(0,0,0,3);
+}
 
     /* Generates the Color
      * @param r     0-255 integer level of red.
@@ -47,19 +52,30 @@ public class ChromaBasics : MonoBehaviour
         AssignLayerAll(col, layer);
     }
 
-    /* Controls fading of a layer.
-     *
+    /* Adjusts the fade speed.
+     * @param spd   adjusts the speed of the fade
      */
-    public void Allfd(int r, int g, int b, int layer, bool isfd)
+
+    public void AllFdSp(int spd)
     {
-        //fading = isfd;
-        //if (fading == true)
-        //{
-        Debug.Log((int)(r * Math.Abs(fd)));
-        //ColoreColor col = new ColoreColor();
-        ColoreColor col = new ColoreColor((int)(r * Math.Abs(fd)), 0 * Math.Abs(fd), 0 * Math.Abs(fd));
-        AssignLayerAll(col, layer);
-        //}
+        fdSpd = spd;
+    }
+
+    /* Controls fading of a layer
+     * @param r     red
+     * @param g     green
+     * @param b     blue
+     * @param layer designated layer
+     * @param isfd  switch to activate/deactivate fade
+     */
+    public void AllFd(int r, int g, int b, int layer, bool isfd)
+    {
+        fading = isfd;
+        if (fading == true)
+        {
+            ColoreColor col = new ColoreColor((int)(r * Math.Abs(fd)), (int)(g * Math.Abs(fd)), (int)(b * Math.Abs(fd)));
+            AssignLayerAll(col, layer);
+        }
     }
 
     /* Assigns all of the keys to the supplied color.
@@ -90,6 +106,17 @@ public class ChromaBasics : MonoBehaviour
                     for (var c = 0; c < Constants.MaxColumns; c++)
                     {
                         layer2[rows, c] = col;
+                    }
+                }
+                break;
+            case 3:
+                //Loop through all Rows
+                for (var rows = 0; rows < Constants.MaxRows; rows++)
+                {
+                    //Loop through all Columns
+                    for (var c = 0; c < Constants.MaxColumns; c++)
+                    {
+                        layer3[rows, c] = col;
                     }
                 }
                 break;
@@ -161,7 +188,7 @@ public class ChromaBasics : MonoBehaviour
     public void Update()
     {
 
-        fd = fd + Time.deltaTime / 10;
+        /*fd = fd + Time.deltaTime / fdSpd;
         if (Math.Abs(fd) < 0.01f)
             fd = 0.01f;
 
@@ -176,12 +203,17 @@ public class ChromaBasics : MonoBehaviour
             {
                 //Checks if the higher layer is blank. If so, display the underlying layer.
                 ColoreColor empty = new ColoreColor(0, 0, 0);
-                //  if (layer1[r, c] == empty)
-                //    Chroma.Instance.Keyboard[r, c] = layer2[r, c];
-                //else
-                Chroma.Instance.Keyboard[r, c] = layer1[r, c];
+               // if (Chroma.Instance.Keyboard[r, c]!=null) {
+                    if (layer1[r, c] == empty)
+                        keyboardGrid[r, c] = layer2[r, c];
+                    else
+                        keyboardGrid[r, c] = layer1[r, c];
+                //}
+                
             }
         }
+        Chroma.Instance.Keyboard.SetCustom(keyboardGrid);
+       // Debug.Log(keyboardGrid);*/
     }
 
 }
