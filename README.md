@@ -6,6 +6,10 @@
 Chroma is a powerful color changing ecosystem designed and maintained by Razer. This Chroma module is built to be used within Unity by accesssing Razer's Chroma C++ Library through Colore's Chroma C# Wrapper.
 TIA's Chroma Module has support for theoretically infinite layers, although only three active layers has been tested.
 
-Install
+## Install
+Add the two files, ChromaBasics.cs and Corale.Colore.dll found in TIA_Chroma/Chroma/Assets/plugins/ to your project's /Assets/plugins/ folder.
 
-Usage
+Following the structure in Master.js, call ChromaBasics.cs in your GUI javascript file.
+
+## Usage
+Currently TIA Chroma only supports Razer keyboards.
