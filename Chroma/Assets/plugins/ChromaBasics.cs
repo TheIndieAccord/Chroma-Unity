@@ -187,7 +187,6 @@ public class ChromaBasics : MonoBehaviour
     //Sends the created layers to the SDK for visualization.
     public void Update()
     {
-
         /*fd = fd + Time.deltaTime / fdSpd;
         if (Math.Abs(fd) < 0.01f)
             fd = 0.01f;
