@@ -45,7 +45,37 @@ function Update(){
     }
 
     //The base ambient layer
-        Chrom.AssignAll(0x190000,1);
+        // Chrom.AssignAll(0x190000,1);
+
+        Chrom.AssignKeyboardHorizontal(0xCC0000, 3, 1);
+        Chrom.AssignKeyboardHorizontal(0x990000, 3, 2);
+        Chrom.AssignKeyboardHorizontal(0x660000, 3, 3);
+        Chrom.AssignKeyboardHorizontal(0x330000, 3, 4);
+        Chrom.AssignKeyboardHorizontal(0x100000, 3, 5);
+        Chrom.AssignKeyboardVertical(0x00FF00, 1, 0);
+        // Chrom.AssignKey(0xFF0000,1,1,1);
+        // Chrom.AssignKey(0xB00000,1,2,1);
+        // Chrom.AssignKey(0xA00000,1,3,1);
+        // Chrom.AssignKey(0x300000,1,4,1);
+        // Chrom.AssignKey(0x100000,1,5,1);
+
+        // Chrom.AssignKey(0xFF0000,1,1,2);
+        // Chrom.AssignKey(0xB00000,1,2,2);
+        // Chrom.AssignKey(0xA00000,1,3,2);
+        // Chrom.AssignKey(0x300000,1,4,2);
+        // Chrom.AssignKey(0x100000,1,5,2);
+
+        // Chrom.AssignKey(0xFF0000,1,1,3);
+        // Chrom.AssignKey(0xB00000,1,2,3);
+        // Chrom.AssignKey(0xA00000,1,3,3);
+        // Chrom.AssignKey(0x300000,1,4,3);
+        // Chrom.AssignKey(0x100000,1,5,3);
+
+        // Chrom.AssignKey(0xFF0000,1,1,4);
+        // Chrom.AssignKey(0xB00000,1,2,4);
+        // Chrom.AssignKey(0xA00000,1,3,4);
+        // Chrom.AssignKey(0x300000,1,4,4);
+        // Chrom.AssignKey(0x100000,1,5,4);
 
     //Transitionary Layer
         // if (hurt==true)
@@ -56,9 +86,9 @@ function Update(){
 
     //Static Layer
         Chrom.AssignKey(0xFFFFFF,2,0,1);
-        Chrom.AssignKey(1,250,250,2,4,3);
-        Chrom.AssignKey(250,250,1,2,4,4);
-        Chrom.AssignKey(250,1,250,2,4,5);
+        // Chrom.AssignKey(1,250,250,2,4,3);
+        // Chrom.AssignKey(250,250,1,2,4,4);
+        // Chrom.AssignKey(250,1,250,2,4,5);
 
         //Combo Bar. Falls on Static Layer
         hor_bar((herm_script.combo)%10, 10, 1, 1, 15, 1);
