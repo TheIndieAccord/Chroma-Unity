@@ -47,12 +47,14 @@ function Update(){
     //The base ambient layer
         // Chrom.AssignAll(0x190000,1);
 
-        Chrom.AssignKeyboardHorizontal(0xCC0000, 3, 1);
-        Chrom.AssignKeyboardHorizontal(0x990000, 3, 2);
-        Chrom.AssignKeyboardHorizontal(0x660000, 3, 3);
-        Chrom.AssignKeyboardHorizontal(0x330000, 3, 4);
-        Chrom.AssignKeyboardHorizontal(0x100000, 3, 5);
+
+        Chrom.AssignKeyboardHorizontal(0xCC0000, 2, 1);
+        Chrom.AssignKeyboardHorizontal(0x990000, 2, 2);
+        Chrom.AssignKeyboardHorizontal(0x660000, 2, 3);
+        Chrom.AssignKeyboardHorizontal(0x330000, 2, 4);
+        Chrom.AssignKeyboardHorizontal(0x100000, 2, 5);
         Chrom.AssignKeyboardVertical(0x00FF00, 1, 0);
+        
         // Chrom.AssignKey(0xFF0000,1,1,1);
         // Chrom.AssignKey(0xB00000,1,2,1);
         // Chrom.AssignKey(0xA00000,1,3,1);

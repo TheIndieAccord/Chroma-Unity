@@ -10,6 +10,9 @@ using ColoreColor = Corale.Colore.Core.Color;
 
 public class ChromaBasics : MonoBehaviour
 {
+    //Default empty color.
+    private ColoreColor empty = new ColoreColor(0, 0, 0);
+
     //Class variables. Common to all of the objects.
     private float fd = -1.0f;
     private int fdSpd = 10;
@@ -160,7 +163,6 @@ public class ChromaBasics : MonoBehaviour
             for (var c = 0; c < Constants.MaxColumns; c++)
             {
                 //Checks if the higher layer is blank. If so, display the underlying layer.
-                ColoreColor empty = new ColoreColor(0, 0, 0);
                 // if (Chroma.Instance.Keyboard[r, c]!=null) {
                     if (layer1[r, c] == empty)
                         keyboardGrid[r, c] = layer2[r, c];
@@ -173,15 +175,18 @@ public class ChromaBasics : MonoBehaviour
         Chroma.Instance.Keyboard.SetCustom(keyboardGrid);
     }
 
-    /**
-    This is where most of the magic happens. Functions above call these to assign the colors.
-    **/
+    /*
+     *
+     * This is where most of the magic happens. Functions above call these to assign the colors.
+     * None of these functions should ever be directly called.
+     *
+     */
 
     /* Assigns all of the keys to the supplied color.
      * @param col     Generated color
      * @param layer integer layer, where 1 is the highest layer, followed by 2.
      */
-    public void AssignKeyboardLayer(ColoreColor col, int layer)
+    private void AssignKeyboardLayer(ColoreColor col, int layer)
     {
         //Supplies the given color combination to ALL of the keys on the required layer.
         switch (layer)
@@ -239,7 +244,7 @@ public class ChromaBasics : MonoBehaviour
      * @param x     designated row on the keyboard.
      * @param y     designated column on the keyboard. 
      */
-    public void AssignKeyboardKey(ColoreColor col, int layer, int x, int y)
+    private void AssignKeyboardKey(ColoreColor col, int layer, int x, int y)
     {
         layer1[x, y] = col;
         //Assigns the specified key in the required layer to the given color.
@@ -250,6 +255,9 @@ public class ChromaBasics : MonoBehaviour
                 break;
             case 2:
                 layer2[x, y] = col;
+                break;
+            case 3:
+                layer3[x, y] = col;
                 break;
             default:
                 layer1[x, y] = col;
