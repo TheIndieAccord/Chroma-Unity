@@ -12,9 +12,8 @@ function Start () {
 }
  
 function Update () {
-    //Chrom.AssignAll(255,50,50,1);
-    Chrom.Allfd(255,0,0,1,true);
-    Chrom.AssignKey(0xAAAAAA,2,8,4);
+    Chrom.AssignAll(255,50,50,1);
+    //Chrom.Allfd(255,0,0,1,true);
     //Chrom.AssignKey(0,250,0,1,1,1);
     //Chrom.AssignKey(0xFFFFFF,2,3,2);
     //Chrom.AssignKey(0,0,0,1,1,2);

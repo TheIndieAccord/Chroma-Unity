@@ -3,6 +3,7 @@ using UnityEngine;
 
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
+
 using KeyboardCustom = Corale.Colore.Razer.Keyboard.Effects.Custom;
 using ColoreColor = Corale.Colore.Core.Color;
 
@@ -15,6 +16,7 @@ public class ChromaBasics : MonoBehaviour
     private int fdSpd = 10;
     private bool fading = false;
     private KeyboardCustom keyboardGrid = KeyboardCustom.Create();
+
     //Uninitializes the Colore DLL on application quit. This MUST be called do to a current issue with DLL/Unity.
     public static void OnApplicationQuit()
     {
@@ -25,10 +27,11 @@ public class ChromaBasics : MonoBehaviour
     public ChromaBasics()
     {
         fd = -1.0f;
+        //Assigns a base color for each layer
         AssignAll(0,0,0,1);
         AssignAll(0,0,0,2);
         AssignAll(0,0,0,3);
-}
+    }
 
     /* Generates the Color
      * @param r     0-255 integer level of red.
@@ -187,7 +190,7 @@ public class ChromaBasics : MonoBehaviour
     //Sends the created layers to the SDK for visualization.
     public void Update()
     {
-        /*fd = fd + Time.deltaTime / fdSpd;
+        fd = fd + Time.deltaTime / fdSpd;
         if (Math.Abs(fd) < 0.01f)
             fd = 0.01f;
 
@@ -202,7 +205,7 @@ public class ChromaBasics : MonoBehaviour
             {
                 //Checks if the higher layer is blank. If so, display the underlying layer.
                 ColoreColor empty = new ColoreColor(0, 0, 0);
-               // if (Chroma.Instance.Keyboard[r, c]!=null) {
+                // if (Chroma.Instance.Keyboard[r, c]!=null) {
                     if (layer1[r, c] == empty)
                         keyboardGrid[r, c] = layer2[r, c];
                     else
@@ -212,7 +215,7 @@ public class ChromaBasics : MonoBehaviour
             }
         }
         Chroma.Instance.Keyboard.SetCustom(keyboardGrid);
-       // Debug.Log(keyboardGrid);*/
+       // Debug.Log(keyboardGrid);
     }
 
 }
