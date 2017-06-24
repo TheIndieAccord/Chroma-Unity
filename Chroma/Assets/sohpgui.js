@@ -43,32 +43,43 @@ function Update(){
     if (Input.GetKeyDown(KeyCode.Escape)) {
         quit_prompt = !quit_prompt;
     }
-    Chrom.AssignAll(255,50,50,1);
-       Chrom.AllFd(255,255,255,2,true);
-        Chrom.AssignKey(100,0,160,1,1,0);
-    Chrom.AssignKey(0xFFFFFF,2,3,2);
-    Chrom.AssignAll(0,0,0,1);
-    Chrom.AssignAll(0,0,0,2);
-    // if (hurt==true)
-    if (hurt_timer >= 0.0)
-        alph = alph + 1.5*Time.deltaTime;
-    else
-        alph = 0.0;
-    Chrom.AssignKey(1,250,250,1,4,3);
-    Chrom.AssignKey(250,250,1,1,4,4);
-    Chrom.AssignKey(250,1,250,1,4,5);
-    hor_bar((herm_script.combo)%10, 10, 1, 1, 15, 1);
+
+    //The base ambient layer
+        Chrom.AssignAll(0x190000,1);
+
+    //Transitionary Layer
+        // if (hurt==true)
+        if (hurt_timer >= 0.0)
+            alph = alph + 1.5*Time.deltaTime;
+        else
+            alph = 0.0;
+
+    //Static Layer
+        Chrom.AssignKey(0xFFFFFF,2,0,1);
+        Chrom.AssignKey(1,250,250,2,4,3);
+        Chrom.AssignKey(250,250,1,2,4,4);
+        Chrom.AssignKey(250,1,250,2,4,5);
+
+        //Combo Bar. Falls on Static Layer
+        hor_bar((herm_script.combo)%10, 10, 1, 1, 15, 1);
         if (rw<5.5)
-          rw=rw+10.0*Time.deltaTime;
-    else
-      rw=0;
-    if (rw>5.5){
-       rw=5.5;
-         row(150,150,0,rw,1);
-    }
-    if(alph<1.0)
-        hurt(alph);
-    vert_bar(herm_script.hp, 100, 1, 0, 5, 0);
+            rw=rw+10.0*Time.deltaTime;
+        else
+          rw=0;
+        if (rw>5.5){
+           rw=5.5;
+             row(150,150,0,rw,1);
+        }
+        if(alph<1.0)
+            hurt(alph);
+        vert_bar(herm_script.hp, 100, 1, 0, 5, 0);
+
+    // Chrom.AssignLayerAll(0x900000,1);
+    // Chrom.AllFd(255,255,255,2,true);
+    // Chrom.AssignKey(100,0,160,1,1,0);
+    // Chrom.AssignAll(0,0,0,1);
+    // Chrom.AssignAll(0,0,0,2);
+
   //  Chrom.AllFade(255,0,0,1,false);
     Chrom.Update();
 

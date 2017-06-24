@@ -3,18 +3,23 @@ using UnityEngine;
 
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
+using Corale.Colore.Razer.Mouse;
 
 using KeyboardCustom = Corale.Colore.Razer.Keyboard.Effects.Custom;
 using ColoreColor = Corale.Colore.Core.Color;
 
 public class ChromaBasics : MonoBehaviour
 {
-    private ColoreColor[,] layer1 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
-    private ColoreColor[,] layer2 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
-    private ColoreColor[,] layer3 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
+    //Class variables. Common to all of the objects.
     private float fd = -1.0f;
     private int fdSpd = 10;
     private bool fading = false;
+
+    //Keyboard specific variables
+    //Initialize the required number of layers for the keyboard to use
+    private ColoreColor[,] layer1 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
+    private ColoreColor[,] layer2 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
+    private ColoreColor[,] layer3 = new ColoreColor[Constants.MaxRows, Constants.MaxColumns];
     private KeyboardCustom keyboardGrid = KeyboardCustom.Create();
 
     //Uninitializes the Colore DLL on application quit. This MUST be called do to a current issue with DLL/Unity.
@@ -28,9 +33,13 @@ public class ChromaBasics : MonoBehaviour
     {
         fd = -1.0f;
         //Assigns a base color for each layer
-        AssignAll(0,0,0,1);
-        AssignAll(0,0,0,2);
-        AssignAll(0,0,0,3);
+        //Keyboard
+            AssignAll(0,0,0,1);
+            AssignAll(0,0,0,2);
+            AssignAll(0,0,0,3);
+
+        //Cursor
+        
     }
 
     /* Generates the Color
