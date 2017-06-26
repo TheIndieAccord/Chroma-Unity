@@ -1,4 +1,5 @@
 import UnityEngine.SceneManagement;
+
 var guiBG : Texture2D;
 var guiEmpty : Texture2D;
 var guiFull : Texture2D;
@@ -33,6 +34,10 @@ private var Chrom : ChromaBasics;
 private var alph : float = 0.0;
 private var rw : float = 0.0;
 
+var abilityColor1 : uint = 0xFFFFFF;
+var abilityColor2 : uint = 0xFFFFFF;
+var abilityColor3 : uint = 0xFFFFFF;
+
 function Start () {
     Chrom = gameObject.AddComponent.<ChromaBasics>();
     hp = herm_script.hp;
@@ -45,39 +50,7 @@ function Update(){
     }
 
     //The base ambient layer
-        // Chrom.AssignAll(0x190000,1);
-
-
-        Chrom.AssignKeyboardHorizontal(0xCC0000, 2, 1);
-        Chrom.AssignKeyboardHorizontal(0x990000, 2, 2);
-        Chrom.AssignKeyboardHorizontal(0x660000, 2, 3);
-        Chrom.AssignKeyboardHorizontal(0x330000, 2, 4);
-        Chrom.AssignKeyboardHorizontal(0x100000, 2, 5);
-        Chrom.AssignKeyboardVertical(0x00FF00, 1, 0);
-        
-        // Chrom.AssignKey(0xFF0000,1,1,1);
-        // Chrom.AssignKey(0xB00000,1,2,1);
-        // Chrom.AssignKey(0xA00000,1,3,1);
-        // Chrom.AssignKey(0x300000,1,4,1);
-        // Chrom.AssignKey(0x100000,1,5,1);
-
-        // Chrom.AssignKey(0xFF0000,1,1,2);
-        // Chrom.AssignKey(0xB00000,1,2,2);
-        // Chrom.AssignKey(0xA00000,1,3,2);
-        // Chrom.AssignKey(0x300000,1,4,2);
-        // Chrom.AssignKey(0x100000,1,5,2);
-
-        // Chrom.AssignKey(0xFF0000,1,1,3);
-        // Chrom.AssignKey(0xB00000,1,2,3);
-        // Chrom.AssignKey(0xA00000,1,3,3);
-        // Chrom.AssignKey(0x300000,1,4,3);
-        // Chrom.AssignKey(0x100000,1,5,3);
-
-        // Chrom.AssignKey(0xFF0000,1,1,4);
-        // Chrom.AssignKey(0xB00000,1,2,4);
-        // Chrom.AssignKey(0xA00000,1,3,4);
-        // Chrom.AssignKey(0x300000,1,4,4);
-        // Chrom.AssignKey(0x100000,1,5,4);
+        Chrom.AssignKeyboardLayer(0x32C002C, 3);
 
     //Transitionary Layer
         // if (hurt==true)
@@ -88,23 +61,32 @@ function Update(){
 
     //Static Layer
         Chrom.AssignKey(0xFFFFFF,2,0,1);
-        // Chrom.AssignKey(1,250,250,2,4,3);
-        // Chrom.AssignKey(250,250,1,2,4,4);
-        // Chrom.AssignKey(250,1,250,2,4,5);
+        Chrom.AssignKey(0xFFFFFF,2,2,4);
 
-        //Combo Bar. Falls on Static Layer
-        hor_bar((herm_script.combo)%10, 10, 1, 1, 15, 1);
-        if (rw<5.5)
-            rw=rw+10.0*Time.deltaTime;
-        else
-          rw=0;
-        if (rw>5.5){
-           rw=5.5;
-             row(150,150,0,rw,1);
-        }
-        if(alph<1.0)
-            hurt(alph);
-        vert_bar(herm_script.hp, 100, 1, 0, 5, 0);
+        //Action Keys
+        actionColor1 = 0xFF0000;
+        actionColor2 = 0x0000FF;
+        actionColor3 = 0x00FF00;
+
+        Chrom.AssignKey(abilityColor1,2,1,2);
+        Chrom.AssignKey(abilityColor2,2,1,3);
+        Chrom.AssignKey(abilityColor3,2,1,4);
+
+        // Chrom.KeyboardRipple();
+
+        // //Combo Bar. Falls on Static Layer
+        // hor_bar((herm_script.combo)%10, 10, 1, 1, 15, 1);
+        // if (rw<5.5)
+        //     rw=rw+10.0*Time.deltaTime;
+        // else
+        //   rw=0;
+        // if (rw>5.5){
+        //    rw=5.5;
+        //      row(150,150,0,rw,1);
+        // }
+        // if(alph<1.0)
+        //     hurt(alph);
+        // vert_bar(herm_script.hp, 100, 1, 0, 5, 0);
 
     // Chrom.AssignLayerAll(0x900000,1);
     // Chrom.AllFd(255,255,255,2,true);
@@ -211,23 +193,28 @@ function OnApplicationQuit() {
     Chrom.OnApplicationQuit();
 }
 
-function hor_bar(hp:float, maxhp:float, layer:int, ystart:int, yend:int, xstart:int){
-    for (var i:int=ystart;i<=yend;i++){
-        if ( (hp/maxhp) > (parseFloat(i-1)/(parseFloat(yend-ystart))))
-            Chrom.AssignKey(250*(1.0-herm_script.combo_timer/5.0),250*(1.0-herm_script.combo_timer/5.0),0,layer,xstart,ystart+i);
-    else
-            Chrom.AssignKey(0,0,0,layer,xstart,ystart+i);
-    }
-}
+// function hor_bar(hp:float, maxhp:float, layer:int, ystart:int, yend:int, xstart:int){
+//     for (var i:int=ystart;i<=yend;i++){
+//         if ( (hp/maxhp) > (parseFloat(i-1)/(parseFloat(yend-ystart))))
+//             Chrom.AssignKey(250*(1.0-herm_script.combo_timer/5.0),250*(1.0-herm_script.combo_timer/5.0),0,layer,xstart,ystart+i);
+//     else
+//             Chrom.AssignKey(0,0,0,layer,xstart,ystart+i);
+//     }
+// }
 
-function vert_bar(hp:float, maxhp:float, layer:int, xstart:int, xend:int, ystart:int){
-    for (var i:int=xstart;i<=xend;i++){
-        if ( (hp/maxhp) > (parseFloat(i)/(parseFloat(xend-xstart))))
-            Chrom.AssignKey(150,0,0,layer,xend-i,ystart);
-    else
-            Chrom.AssignKey(0,0,0,layer,xend-i,ystart);
-    }
-}
+// function vert_bar(hp:float, maxhp:float, layer:int, xstart:int, xend:int, ystart:int){
+//     for (var i:int=xstart;i<=xend;i++){
+//         if ( (hp/maxhp) > (parseFloat(i)/(parseFloat(xend-xstart))))
+//             Chrom.AssignKey(150,0,0,layer,xend-i,ystart);
+//     else
+//             Chrom.AssignKey(0,0,0,layer,xend-i,ystart);
+//     }
+// }
+
+// function abilitySelect(ability:int)
+// {
+
+// }
 
 function hurt(fd:float){
     row(255.0*fd,0,0,0,1);

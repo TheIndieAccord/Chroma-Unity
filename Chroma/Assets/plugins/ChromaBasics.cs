@@ -37,9 +37,9 @@ public class ChromaBasics : MonoBehaviour
         fd = -1.0f;
         //Assigns a base color for each layer
         //Keyboard
-            AssignKeyboardLayer(0,0,0,1);
-            AssignKeyboardLayer(0,0,0,2);
-            AssignKeyboardLayer(0,0,0,3);
+            ApplyKeyboardLayer(0x000000,1);
+            ApplyKeyboardLayer(0x000000,2);
+            ApplyKeyboardLayer(0x000000,3);
 
         //Cursor
         
@@ -66,7 +66,7 @@ public class ChromaBasics : MonoBehaviour
         if (fading == true)
         {
             ColoreColor col = new ColoreColor((int)(r * Math.Abs(fd)), (int)(g * Math.Abs(fd)), (int)(b * Math.Abs(fd)));
-            AssignKeyboardLayer(col, layer);
+            ApplyKeyboardLayer(col, layer);
         }
     }
 
@@ -81,7 +81,7 @@ public class ChromaBasics : MonoBehaviour
     public void AssignKey(int r, int g, int b, int layer, int x, int y)
     {
         ColoreColor col = new ColoreColor(r, g, b);
-        AssignKeyboardKey(col, layer, x, y);
+        ApplyKeyboardKey(col, layer, x, y);
     }
 
     /* Assigns the key to the supplied color.
@@ -93,7 +93,7 @@ public class ChromaBasics : MonoBehaviour
     public void AssignKey(uint hexcol, int layer, int x, int y)
     {
         ColoreColor col = new ColoreColor(ColoreColor.FromRgb(hexcol));
-        AssignKeyboardKey(col, layer, x, y);
+        ApplyKeyboardKey(col, layer, x, y);
     }
 
     /* Assigns an entire horizontal row to a given color.
@@ -106,7 +106,7 @@ public class ChromaBasics : MonoBehaviour
         ColoreColor col = new ColoreColor(ColoreColor.FromRgb(hexcol));
         for (var c = 0; c < Constants.MaxColumns; c++)
         {
-            AssignKeyboardKey(col, layer, row, c);
+            ApplyKeyboardKey(col, layer, row, c);
         }
     }
 
@@ -119,7 +119,7 @@ public class ChromaBasics : MonoBehaviour
     public void AssignKeyboardLayer(int r, int g, int b, int layer)
     {
         ColoreColor col = new ColoreColor(r, g, b);
-        AssignKeyboardLayer(col, layer);
+        ApplyKeyboardLayer(col, layer);
     }
 
     /* Generates the Color
@@ -129,7 +129,7 @@ public class ChromaBasics : MonoBehaviour
     public void AssignKeyboardLayer(uint hexcol, int layer)
     {
         ColoreColor col = new ColoreColor(ColoreColor.FromRgb(hexcol));
-        AssignKeyboardLayer(col, layer);
+        ApplyKeyboardLayer(col, layer);
     }
 
     /* Assigns an entire vertical column to a given color.
@@ -142,9 +142,24 @@ public class ChromaBasics : MonoBehaviour
         ColoreColor col = new ColoreColor(ColoreColor.FromRgb(hexcol));
         for (var r = 0; r < Constants.MaxRows; r++)
         {
-            AssignKeyboardKey(col, layer, r, column);
+            ApplyKeyboardKey(col, layer, r, column);
         }
     }
+
+    // // public void KeyboardRipple(uint hexcol, int layer, int x, int y
+    // public void KeyboardRipple()
+    // {
+    //     ColoreColor col = new ColoreColor(ColoreColor.FromRgb(0xFFFFFF));
+    //     Keyboard.SetWave(Corale.Colore.Razer.Keyboard.Effects.Direction.LeftToRight);
+
+    //     // for (var i = 1; i < Constants.MaxColumns; i++)
+    //     // {
+    //     //     AssignKeyboardVertical(col, 1, 6 + i);
+
+    //     //     // if (i > 2)
+    //     //     //     AssignKeyboardVertical(0x000000, 1, 6 + i)
+    //     // }
+    // }
 
     //Sends the created layers to the SDK for visualization.
     public void Update()
@@ -164,8 +179,12 @@ public class ChromaBasics : MonoBehaviour
             {
                 //Checks if the higher layer is blank. If so, display the underlying layer.
                 // if (Chroma.Instance.Keyboard[r, c]!=null) {
-                    if (layer1[r, c] == empty)
+                    if (layer1[r, c] == empty) {
+                        if (layer2[r,c] == empty)
+                            keyboardGrid[r, c] = layer3[r, c];
+                        else
                         keyboardGrid[r, c] = layer2[r, c];
+                    }
                     else
                         keyboardGrid[r, c] = layer1[r, c];
                 //}
@@ -186,7 +205,7 @@ public class ChromaBasics : MonoBehaviour
      * @param col     Generated color
      * @param layer integer layer, where 1 is the highest layer, followed by 2.
      */
-    private void AssignKeyboardLayer(ColoreColor col, int layer)
+    private void ApplyKeyboardLayer(ColoreColor col, int layer)
     {
         //Supplies the given color combination to ALL of the keys on the required layer.
         switch (layer)
@@ -244,7 +263,7 @@ public class ChromaBasics : MonoBehaviour
      * @param x     designated row on the keyboard.
      * @param y     designated column on the keyboard. 
      */
-    private void AssignKeyboardKey(ColoreColor col, int layer, int x, int y)
+    private void ApplyKeyboardKey(ColoreColor col, int layer, int x, int y)
     {
         layer1[x, y] = col;
         //Assigns the specified key in the required layer to the given color.
