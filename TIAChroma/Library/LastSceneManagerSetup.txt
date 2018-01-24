@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/ChromaSDK/Examples/Scenes/Example01.unity
+  isLoaded: 1
+  isActive: 1
