@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C37B4015-C456-1B3C-8FB6-307AAB0D1F08}</ProjectGuid>
+    <ProjectGuid>{BB304DAE-C771-E191-6440-73E688A26E6D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -117,9 +117,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="New Unity Project.CSharp.csproj">
-      <Project>{A484C350-0FDC-FFCA-CAEE-31FE2DC36B34}</Project>
-      <Name>New Unity Project.CSharp</Name>
+    <ProjectReference Include="TIAChroma.CSharp.csproj">
+      <Project>{065BBD91-BC05-0404-10D7-485286E25259}</Project>
+      <Name>TIAChroma.CSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

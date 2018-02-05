@@ -12,6 +12,10 @@ public class ChromaBasics : MonoBehaviour
 {
     public Color _StaticColor;
 
+    //Testing Keyboard Layers
+    private EffectArray2dInput keyboardStatic = new EffectArray2dInput();
+    private EffectArray2dInput keyboardActive = new EffectArray2dInput();
+
     private bool ChromaLive = false;
 
     /// <summary>
@@ -347,7 +351,7 @@ public class ChromaBasics : MonoBehaviour
     {
         _mConnectionManager = ChromaConnectionManager.Instance;
 
-       SetStaticLayer();
+       AssignStaticLayer();
 
         // Make instances of animations in play mode for update events to work
         if (Application.isPlaying)
@@ -366,7 +370,18 @@ public class ChromaBasics : MonoBehaviour
         }
     }
 
-    void SetStaticLayer()
+
+    void AssignStaticLayer()
+    {
+        EffectInput input = GetEffectChromaStatic(_StaticColor);
+        //Assigns Random
+        keyboardActive = ChromaUtils.CreateRandomColors2D(ChromaDevice2DEnum.Keyboard);
+        //Sets Q to green
+        keyboardActive[2][2] = ChromaUtils.ToBGR(Color.green);
+    }
+
+
+    void ApplyStaticLayer()
     {
         while (null == _mConnectionManager)
         {
@@ -378,7 +393,8 @@ public class ChromaBasics : MonoBehaviour
         ChromaUtils.RunOnThread(() =>
         {
             EffectInput input = GetEffectChromaStatic(_StaticColor);
-            chromaApi.PutKeyboard(input);
+            //keyboardActive = ChromaUtils.CreateRandomColors2D(ChromaDevice2DEnum.Keyboard);
+            chromaApi.PutKeyboardCustom(keyboardActive);
         });
     }
 
@@ -386,7 +402,7 @@ public class ChromaBasics : MonoBehaviour
     {
         if (!ChromaLive && _mConnectionManager != null)
         {
-            SetStaticLayer();
+            ApplyStaticLayer();
         }
     }
 }
