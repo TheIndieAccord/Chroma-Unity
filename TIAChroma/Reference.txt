@@ -1,0 +1,10 @@
+This is a document regarding commands.
+
+Layer Creation:
+EffectArray2dInput layer = new EffectArray2dInput();
+
+Create a rainbow effect on layer
+layer = ChromaUtils.CreateRandomColors2D(ChromaDevice2DEnum.Keyboard);
+
+Create a specified color on the desired key
+layer[2][2] = ChromaUtils.ToBGR(Color.green);
