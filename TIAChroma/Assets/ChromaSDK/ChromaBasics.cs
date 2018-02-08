@@ -1,4 +1,4 @@
-﻿// Access to Types and Utils
+// Access to Types and Utils
 using ChromaSDK;
 // Access to Chroma data structures
 using ChromaSDK.ChromaPackage.Model;
@@ -10,13 +10,21 @@ using UnityEngine;
 
 public class ChromaBasics : MonoBehaviour
 {
+
+    //Constants
+	private readonly static int KEYBOARD_ROWS = ChromaUtils.GetMaxRow(ChromaDevice2DEnum.Keyboard);
+	private readonly static int KEYBOARD_COLS = ChromaUtils.GetMaxColumn(ChromaDevice2DEnum.Keyboard);
+
+    //Static Layer. Assignable through Unity UI.
     public Color _StaticColor;
 
-    //Testing Keyboard Layers
-    private EffectArray2dInput keyboardStatic = new EffectArray2dInput();
-    private EffectArray2dInput keyboardActive = new EffectArray2dInput();
+    //Keyboard Layers
+    private Color[ , ] topLayer = new Color[KEYBOARD_ROWS,KEYBOARD_COLS];
+    private Color[ , ] middleLayer = new Color[KEYBOARD_ROWS,KEYBOARD_COLS];
+    private Color[ , ] baseLayer = new Color[KEYBOARD_ROWS,KEYBOARD_COLS];
 
-    private bool ChromaLive = false;
+    //Keyboard Grid
+    private EffectArray2dInput keyboardGrid = new EffectArray2dInput();
 
     /// <summary>
     /// 1D animation assets
@@ -351,7 +359,9 @@ public class ChromaBasics : MonoBehaviour
     {
         _mConnectionManager = ChromaConnectionManager.Instance;
 
-       AssignStaticLayer();
+        InitializeLayers();
+        AssignStaticLayer(Color.red);
+        AssignMiddleLayer(2, 2, Color.yellow);
 
         // Make instances of animations in play mode for update events to work
         if (Application.isPlaying)
@@ -370,39 +380,80 @@ public class ChromaBasics : MonoBehaviour
         }
     }
 
-
-    void AssignStaticLayer()
+    void InitializeLayers()
     {
-        EffectInput input = GetEffectChromaStatic(_StaticColor);
-        //Assigns Random
-        keyboardActive = ChromaUtils.CreateRandomColors2D(ChromaDevice2DEnum.Keyboard);
-        //Sets Q to green
-        keyboardActive[2][2] = ChromaUtils.ToBGR(Color.green);
+        keyboardGrid = ChromaUtils.CreateColors2D(ChromaDevice2DEnum.Keyboard);
+        for (int r = 0; r < KEYBOARD_ROWS; r++)
+        {
+            for (int c = 0; c < KEYBOARD_COLS; c++)
+            {
+                baseLayer[r,c] = Color.black;
+                middleLayer[r,c] = Color.black;
+            }
+        }
     }
 
+    /// <summary>
+    /// Assigns a single static color to the Static/Base/Ambient layer of the system. If no color is set, defaults to off.
+    /// </summary>
+    /// <param name="col">Color to be applied. Black by default</param>
+    void AssignStaticLayer(Color col)
+        //Color col = Color.blue)
+    {
+    	for (int r = 0; r < KEYBOARD_ROWS; r++)
+    	{
+    		for (int c = 0; c < KEYBOARD_COLS; c++)
+    		{
+        		baseLayer[r,c] = col;
+    		}
+    	}
+    }
 
-    void ApplyStaticLayer()
+    /// <summary>
+    /// Assigns a color to the specified keyboard location. 0,0 is top left.
+    /// </summary>
+    /// <param name="r">Row. Begins at 0.</param>
+    /// <param name="c">Column. Begins at 0.</param>
+    /// <param name="col">Color to be applied. Black by default.</param>
+    void AssignMiddleLayer(int r, int c, Color col)
+    {
+        middleLayer[r,c] = col;
+    }
+
+    /// <summary>
+    /// Iterates through the layers and checks for depth priority. Applies the uppermost layer to the keyboardGrid to be used.
+    /// </summary>
+    void ApplyLayers()
     {
         while (null == _mConnectionManager)
         {
-            GUILayout.Label("Waiting for start...");
+            GUILayout.Label("Waiting for Chroma to start...");
         }
 
         ChromaApi chromaApi = _mConnectionManager.ApiChromaInstance;
 
         ChromaUtils.RunOnThread(() =>
         {
-            EffectInput input = GetEffectChromaStatic(_StaticColor);
-            //keyboardActive = ChromaUtils.CreateRandomColors2D(ChromaDevice2DEnum.Keyboard);
-            chromaApi.PutKeyboardCustom(keyboardActive);
+            //Loops through all of the rows & columns
+            for (int r = 0; r < KEYBOARD_ROWS; r++)
+            {
+                for (int c = 0; c < KEYBOARD_COLS; c++)
+                {
+                    if (middleLayer[r,c].Equals(Color.black))
+                        keyboardGrid[r][c] = ChromaUtils.ToBGR(baseLayer[r,c]);
+                    else
+                        keyboardGrid[r][c] = ChromaUtils.ToBGR(middleLayer[r, c]);
+                }
+            }
+            chromaApi.PutKeyboardCustom(keyboardGrid);
         });
     }
 
     void Update()
     {
-        if (!ChromaLive && _mConnectionManager != null)
+        if (_mConnectionManager != null)
         {
-            ApplyStaticLayer();
+            ApplyLayers();
         }
     }
 }
