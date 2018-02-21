@@ -1,7 +1,7 @@
 # Chroma-Unity
 Razer Chroma in Unity using REST API.
 
-#In Development
+# In Development
 
 Using the Razer REST API, add Razer Chroma capability to your Unity Project, provided by the Indie Accord. 
 
