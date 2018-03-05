@@ -554,7 +554,7 @@ public class ChromaSDKAnimation2DEditor : ChromaSDKAnimationBaseEditor
             if (string.IsNullOrEmpty(GUI.GetNameOfFocusedControl()))
             {
                 Event e = Event.current;
-                if (e.type == EventType.keyUp)
+                if (e.type == EventType.KeyUp)
                 {
                     if (e.keyCode == KeyCode.Delete)
                     {
