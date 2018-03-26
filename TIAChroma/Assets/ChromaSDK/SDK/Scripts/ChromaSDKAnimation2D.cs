@@ -28,6 +28,12 @@ public class ChromaSDKAnimation2D : ChromaSDKBaseAnimation
     [SerializeField]
     public AnimationCurve Curve = new AnimationCurve();
 
+    //Grabs the Color of a Frame's grid.
+    public int GetGridColor(int frame, int row, int col)
+    {
+        return _mFrames[frame].Colors[row].Colors[col];
+    }
+
     public List<EffectArray2dInput> Frames
     {
         // returns a copy

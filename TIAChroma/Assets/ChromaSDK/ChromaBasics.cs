@@ -7,6 +7,7 @@ using ChromaSDK.Api;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class ChromaBasics : MonoBehaviour
 {
@@ -282,21 +283,6 @@ public class ChromaBasics : MonoBehaviour
 
         _mPlayAnimation = true;
 
-        //Debug.Log(string.Format("Load 1D animations Length={0}", _mAnimations1D.Length));
-
-        foreach (ChromaSDKAnimation1D animation in _mAnimations1D)
-        {
-            // unload in case animation was playing in editor
-            if (animation.IsLoaded())
-            {
-                animation.Unload();
-            }
-            // load the animation
-            animation.Load();
-
-            // validate the animation loaded
-            ValidateAnimation(animation);
-        }
 
         //Debug.Log(string.Format("Load 2D animations Length={0}", _mAnimations2D.Length));
 
@@ -314,13 +300,6 @@ public class ChromaBasics : MonoBehaviour
             ValidateAnimation(animation);
         }
 
-        //Debug.Log("Play animations looping...");
-
-        foreach (ChromaSDKAnimation1D animation in _mAnimations1D)
-        {
-            LoopAnimation1D(animation);
-        }
-
         foreach (ChromaSDKAnimation2D animation in _mAnimations2D)
         {
             LoopAnimation2D(animation);
@@ -336,15 +315,6 @@ public class ChromaBasics : MonoBehaviour
         {
             Debug.LogError("Chroma client is not yet connected!");
             return;
-        }
-
-        // unload 1D animations
-        foreach (ChromaSDKAnimation1D animation in _mAnimations1D)
-        {
-            if (animation.IsLoaded())
-            {
-                animation.Unload();
-            }
         }
 
         // unload 2D animations
@@ -371,12 +341,6 @@ public class ChromaBasics : MonoBehaviour
         // Make instances of animations in play mode for update events to work
         if (Application.isPlaying)
         {
-            // instantiate 1D animations
-            for (int i = 0; i < _mAnimations1D.Length; ++i)
-            {
-                _mAnimations1D[i] = (ChromaSDKAnimation1D)Instantiate(_mAnimations1D[i]);
-            }
-
             // instantiate 2D animations
             for (int i = 0; i < _mAnimations2D.Length; ++i)
             {
@@ -439,17 +403,26 @@ public class ChromaBasics : MonoBehaviour
 
         ChromaUtils.RunOnThread(() =>
         {
-            if (_mPlayAnimation)
+            //Play animation then apply top layer
+            if (!_mPlayAnimation)
             {
-                //Play animation then apply top layer
+                //DoAnimations();
 
-                for (int r = 0; r < KEYBOARD_ROWS; r++)
+                for (int a = 0; a < _mAnimations2D[0].GetFrameCount(); a++)
                 {
-                    for (int c = 0; c < KEYBOARD_COLS; c++)
+                    for (int r = 0; r < KEYBOARD_ROWS; r++)
                     {
-                        if (topLayer[r, c].Equals(Color.black))
-                            keyboardGrid[r][c] = ChromaUtils.ToBGR(topLayer[r, c]);
+                        for (int c = 0; c < KEYBOARD_COLS; c++)
+                        {
+                            if (topLayer[r, c].Equals(Color.black))
+                                keyboardGrid[r][c] = ChromaUtils.ToBGR(ChromaUtils.ToRGB(_mAnimations2D[0].GetGridColor(a, r, c)));
+                            else
+                            {
+                                keyboardGrid[r][c] = ChromaUtils.ToBGR(topLayer[r, c]);
+                            }
+                        }
                     }
+                    chromaApi.PutKeyboardCustom(keyboardGrid);
                 }
             }
             else
@@ -472,9 +445,9 @@ public class ChromaBasics : MonoBehaviour
                         //keyboardGrid[r][c] = topLayer.Frames[r][c].;
                         //  keyboardGrid[r][c] = ChromaUtils.ToBGR(topLayer[r, c]);
                     }
+                    chromaApi.PutKeyboardCustom(keyboardGrid);
                 }
             }
-            chromaApi.PutKeyboardCustom(keyboardGrid);
         });
     }
 
