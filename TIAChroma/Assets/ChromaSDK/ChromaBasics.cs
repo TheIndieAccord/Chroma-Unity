@@ -18,6 +18,11 @@ public class ChromaBasics : MonoBehaviour
 
     //Static Layer. Assignable through Unity UI.
     public Color _StaticColor;
+    //Active Layer Color
+    public Color _ActiveColor;
+    //Active Layer Array
+    public String[] ActiveKeys;
+
 
     //Dynamic Layers
     public ChromaSDKAnimation2D _LowHealthEffect = null;
