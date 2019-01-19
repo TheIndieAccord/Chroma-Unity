@@ -60,7 +60,7 @@ public class ChromaBasics : MonoBehaviour
     /// <summary>
     /// Keep animation playing
     /// </summary>
-    private bool _mPlayAnimation = false;
+    private bool _mPlayAnimation = true;
 
     /// <summary>
     /// Actions to run on the main thread
@@ -341,7 +341,9 @@ public class ChromaBasics : MonoBehaviour
 
         InitializeLayers();
         AssignBaseLayer(Color.red);
-        AssignTopLayer(2, 2, Color.cyan);
+        AssignTopLayer(1, 2, Color.white);
+        AssignTopLayer(1, 3, Color.white);
+        AssignTopLayer(1, 4, Color.white);
 
         // Make instances of animations in play mode for update events to work
         if (Application.isPlaying)
@@ -412,7 +414,6 @@ public class ChromaBasics : MonoBehaviour
             if (!_mPlayAnimation)
             {
                 //DoAnimations();
-
                 for (int a = 0; a < _mAnimations2D[0].GetFrameCount(); a++)
                 {
                     for (int r = 0; r < KEYBOARD_ROWS; r++)
@@ -420,6 +421,7 @@ public class ChromaBasics : MonoBehaviour
                         for (int c = 0; c < KEYBOARD_COLS; c++)
                         {
                             if (topLayer[r, c].Equals(Color.black))
+                            //TODO Apply logic to display bottom layer if animation is black
                                 keyboardGrid[r][c] = ChromaUtils.ToBGR(ChromaUtils.ToRGB(_mAnimations2D[0].GetGridColor(a, r, c)));
                             else
                             {
@@ -437,18 +439,10 @@ public class ChromaBasics : MonoBehaviour
                 {
                     for (int c = 0; c < KEYBOARD_COLS; c++)
                     {
-                        //if (topLayer[r, c].Equals(Color.black))
-                        //if (topLayer.Colors.Equals(Color.black))
-                        {
-                            if (topLayer[r, c].Equals(Color.black))
-                                keyboardGrid[r][c] = ChromaUtils.ToBGR(baseLayer[r, c]);
-                            else
-                                keyboardGrid[r][c] = ChromaUtils.ToBGR(topLayer[r, c]);
-                        }
-                        //else
-                        //keyboardGrid[r][c] = ChromaUtils.ToBGR(Color.yellow);
-                        //keyboardGrid[r][c] = topLayer.Frames[r][c].;
-                        //  keyboardGrid[r][c] = ChromaUtils.ToBGR(topLayer[r, c]);
+                        if (topLayer[r, c].Equals(Color.black))
+                            keyboardGrid[r][c] = ChromaUtils.ToBGR(baseLayer[r, c]);
+                        else
+                            keyboardGrid[r][c] = ChromaUtils.ToBGR(topLayer[r, c]);
                     }
                     chromaApi.PutKeyboardCustom(keyboardGrid);
                 }
